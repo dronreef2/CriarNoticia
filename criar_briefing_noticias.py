@@ -3,6 +3,7 @@ from google.generativeai import types
 from pydantic import BaseModel, Field
 from typing import List
 import pathlib
+import os
 
 # --- Configuração da API Key ---
 # Lembre-se de substituir "SUA_API_KEY_AQUI" pela sua chave real.
@@ -33,8 +34,17 @@ class BriefingDeNoticias(BaseModel):
         description="Crie um prompt de texto descritivo e artístico para um modelo de geração de imagem (como Imagen ou Midjourney) que capture visualmente a essência da 'analise_sintetizada'. O prompt deve ser em inglês."
     )
 
-# --- Inicialização do Cliente (novo padrão) ---
-client = genai.Client()
+# --- Inicialização do Cliente ---
+# Nota: A API mudou. Não há mais genai.Client()
+# A configuração é feita via genai.configure(api_key=key)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+    api_key = os.environ.get('GOOGLE_API_KEY')
+    if api_key:
+        genai.configure(api_key=api_key)
+except ImportError:
+    pass  # python-dotenv não instalado
 
 def criar_briefing_avancado(topico: str):
     """
