@@ -31,6 +31,15 @@ env/
 *.jpeg
 briefing_*.png
 
+# Generated output files
+briefing_*.txt
+briefing_*.json
+output/
+
+# Configuration files with secrets
+config.env
+.env
+
 # IDE
 .vscode/
 .idea/
